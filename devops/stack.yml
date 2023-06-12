@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    image: backendgrupo4:1
+    ports:
+      - target: 8084
+        published: 8084
+        protocol: tcp
+        mode: host
+    networks:
+      - desarrollo_net
+  db4:
+    image: postgres:15.0-bullseye
+    environment:
+      - TZ=America/Guayaquil
+      - POSTGRES_DB=grupo4
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_USER=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_grupo4_tendecias:/var/lib/postgresql/data/pgdata
+    networks:
+      - desarrollo_net
+           
+volumes:
+  pg_grupo4_tendecias:
+    external: true
+
+networks:
+  desarrollo_net:
+    external: true
+
+secrets:
+  db_dev_pass:
+    external: true  
